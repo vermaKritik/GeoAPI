@@ -1,0 +1,5 @@
+/node_modules
+/dbData
+.env
+.vscode
+/data
