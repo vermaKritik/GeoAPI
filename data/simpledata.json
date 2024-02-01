@@ -1,0 +1,30 @@
+[
+    {
+        "name": "Home",
+        "location": {
+            "type": "Point",
+            "coordinates": [-122.4194, 37.7749]
+        }
+    },
+    {
+        "name": "Work",
+        "location": {
+            "type": "Point",
+            "coordinates": [-122.3975, 37.7925]
+        }
+    },
+    {
+        "name": "Park",
+        "location": {
+            "type": "Point",
+            "coordinates": [-122.4044, 37.7819]
+        }
+    },
+    {
+        "name": "Coffee Shop",
+        "location": {
+            "type": "Point",
+            "coordinates": [-122.4037, 37.7882]
+        }
+    }
+]

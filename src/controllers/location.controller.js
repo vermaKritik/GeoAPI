@@ -1,6 +1,7 @@
 const Location = require('../models/location.model');
 const catchAsync = require('../utils/chtchasync');
 const dummyLocations = require('../../data/simpledata.json');
+const dummyLocationsLarge = require('../../data/data.json');
 const { giveDistance } = require('../services/location.service');
 
 exports.findClose = catchAsync(async (req, res) => {
@@ -81,10 +82,18 @@ exports.postPoint = catchAsync(async (req, res) => {
 });
 
 exports.init = catchAsync(async (req, res) => {
-    const data = await Location.insertMany(dummyLocations);
+    const { data } = req.query;
+    let dataSet;
+    
+    if (data === 'large') {
+        dataSet = await Location.insertMany(dummyLocationsLarge);
+    } else {
+        dataSet = await Location.insertMany(dummyLocations);
+    }
+
     return res.status(200).json({
         status: 'OK',
-        length: data.length,
-        data,
+        length: dataSet.length,
+        dataSet,
     });
 });

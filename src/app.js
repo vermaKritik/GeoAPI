@@ -43,11 +43,11 @@ app.use('/health-check', healthCheckRoutes);
 
 // Routes
 app.use('/api/v1', authRouter);
-app.use('/api/v1/locations', locationRouter);
 
 app.use(authorizeMiddleware.protect);
 
 app.use('/api/v1/me', userRoutes);
+app.use('/api/v1/locations', locationRouter);
 
 app.all('*', (req, res, next) => {
     next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
