@@ -4,16 +4,18 @@ const cors = require('cors');
 const cookieParser = require('cookie-parser');
 
 // Middleware
-const universalMiddleware = require('./middleware/universal.middleware.js');
+const universalMiddleware = require('./middleware/universal.middleware');
+const authorizeMiddleware = require('./middleware/authorize.middleware');
 
 // Routes
-const healthCheckRoutes = require('./routes/healthCheck.routes.js');
-const locationRouter = require('./routes/location.routes.js');
-// const userRoutes = require('./routes/user.routes');
+const healthCheckRoutes = require('./routes/healthCheck.routes');
+const locationRouter = require('./routes/location.routes');
+const authRouter = require('./routes/auth.routes');
+const userRoutes = require('./routes/user.routes');
 
 // Global Error Handler
-// const globalErrorHandler = require('./controllers/error.controller');
-// const AppError = require('./utils/appError');
+const globalErrorHandler = require('./controllers/error.controller');
+const AppError = require('./utils/appError');
 
 const app = express();
 
@@ -40,16 +42,17 @@ app.use(universalMiddleware.sendTimeStamp);
 app.use('/health-check', healthCheckRoutes);
 
 // Routes
-app.use('/api/v1', locationRouter);
+app.use('/api/v1', authRouter);
+app.use('/api/v1/locations', locationRouter);
 
-// app.use(authorizeMiddleware.protect);
+app.use(authorizeMiddleware.protect);
 
-// app.use('/api/v1/me', userRoutes);
+app.use('/api/v1/me', userRoutes);
 
-// app.all('*', (req, res, next) => {
-//     next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
-// });
+app.all('*', (req, res, next) => {
+    next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
+});
 
-// app.use(globalErrorHandler);
+app.use(globalErrorHandler);
 
 module.exports = app;
