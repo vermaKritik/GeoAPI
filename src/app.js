@@ -42,9 +42,9 @@ app.use(universalMiddleware.sendTimeStamp);
 app.use('/health-check', healthCheckRoutes);
 
 // Routes
-app.use('/api/v1', authRouter);
+// app.use('/api/v1', authRouter);
 
-app.use(authorizeMiddleware.protect);
+// app.use(authorizeMiddleware.protect);
 
 app.use('/api/v1/me', userRoutes);
 app.use('/api/v1/locations', locationRouter);

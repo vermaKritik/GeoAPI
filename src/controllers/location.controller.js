@@ -4,9 +4,13 @@ const catchAsync = require('../utils/chtchasync');
 const dummyLocations = require('../../data/simpledata.json');
 const dummyLocationsLarge = require('../../data/data.json');
 const { giveDistance } = require('../services/location.service');
+const AppError = require('../utils/appError');
 
-exports.findClose = catchAsync(async (req, res) => {
+exports.findClose = catchAsync(async (req, res, next) => {
     const { targetLongitude, targetLatitude, limit } = req.query;
+    const mainLimit = parseInt(limit, 10) + 1;
+
+    console.log('mainLimit', mainLimit);
 
     const result = await Location.aggregate([
         {
@@ -14,8 +18,8 @@ exports.findClose = catchAsync(async (req, res) => {
                 near: {
                     type: 'Point',
                     coordinates: [
-                        parseInt(targetLongitude, 10),
-                        parseInt(targetLatitude, 10),
+                        parseFloat(targetLongitude, 10),
+                        parseFloat(targetLatitude, 10),
                     ],
                 },
                 key: 'location.coordinates',
@@ -30,12 +34,39 @@ exports.findClose = catchAsync(async (req, res) => {
             },
         },
         {
-            $limit: parseInt(limit, 10) + 1,
+            $limit: mainLimit,
         },
     ]);
 
-    const currentPoint = result[0];
-    result.shift();
+    console.log(
+        'result len',
+        result[0].location.coordinates[0] === parseFloat(targetLongitude, 10) &&
+            result[0].location.coordinates[1] === parseFloat(targetLatitude, 10)
+    );
+    let currentPoint;
+    if (result.length > 0) {
+        if (
+            result[0].location.coordinates[0] ===
+                parseFloat(targetLongitude, 10) &&
+            result[0].location.coordinates[1] === parseFloat(targetLatitude, 10)
+        ) {
+            currentPoint = result[0];
+            result.shift();
+        } else {
+            currentPoint = {
+                name: 'unKnowun',
+                location: {
+                    type: 'Point',
+                    coordinates: [
+                        parseFloat(targetLongitude, 10),
+                        parseFloat(targetLatitude, 10),
+                    ],
+                },
+            };
+        }
+    } else {
+        return next(new AppError('Something went wrong', 400));
+    }
 
     return res.status(200).json({
         status: 'OK',
@@ -64,7 +95,6 @@ exports.findDistance = catchAsync(async (req, res) => {
 });
 
 exports.getAllPoints = catchAsync(async (req, res) => {
-
     const data = await handlerFactory.getAll(Location, req.query);
 
     return res.status(200).json({
@@ -86,7 +116,7 @@ exports.postPoint = catchAsync(async (req, res) => {
 exports.init = catchAsync(async (req, res) => {
     const { data } = req.query;
     let dataSet;
-    
+
     if (data === 'large') {
         dataSet = await Location.insertMany(dummyLocationsLarge);
     } else {
