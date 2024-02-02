@@ -1,4 +1,5 @@
 const Location = require('../models/location.model');
+const handlerFactory = require('../services/handlerFactory.service');
 const catchAsync = require('../utils/chtchasync');
 const dummyLocations = require('../../data/simpledata.json');
 const dummyLocationsLarge = require('../../data/data.json');
@@ -63,7 +64,8 @@ exports.findDistance = catchAsync(async (req, res) => {
 });
 
 exports.getAllPoints = catchAsync(async (req, res) => {
-    const data = await Location.find();
+
+    const data = await handlerFactory.getAll(Location, req.query);
 
     return res.status(200).json({
         status: 'OK',
@@ -73,7 +75,7 @@ exports.getAllPoints = catchAsync(async (req, res) => {
 });
 
 exports.postPoint = catchAsync(async (req, res) => {
-    const data = await Location.create(req.body);
+    const data = await handlerFactory.createOne(Location, req.body);
 
     return res.status(200).json({
         status: 'OK',
