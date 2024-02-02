@@ -1,0 +1,351 @@
+{
+	"info": {
+		"_postman_id": "67dfd9c9-d72e-4bc1-8224-8c42b0d905bf",
+		"name": "GeoAPI",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "15835970"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Signup",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"user2\",\r\n    \"email\": \"user2@example.com\",\r\n    \"password\": \"123456\",\r\n    \"passwordConformation\": \"123456\",\r\n    \"dateOfBirth\": \"2-22-2002\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{URL}}/api/v1/signup",
+						"description": "Register new user"
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"user2@example.com\",\r\n    \"password\": \"123456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{URL}}/api/v1/login"
+					},
+					"response": []
+				},
+				{
+					"name": "Send OTP",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userId\":\"65bbe59246e9e5d9baa4784e\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{URL}}/api/v1/sendotp"
+					},
+					"response": []
+				},
+				{
+					"name": "Verify OTP",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"otp\": \"5798\",\r\n \"hash\": \"ba995efde6dc6204e8cc0be68077b3ee5c186b9fcf801c896b90ab387a3f1611.1706812939270\",\r\n    \"email\": \"user2@example.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{URL}}/api/v1/verify"
+					},
+					"response": []
+				},
+				{
+					"name": "Refresh",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{URL}}/api/v1/refresh"
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{URL}}/api/v1/logout"
+					},
+					"response": []
+				},
+				{
+					"name": "Forgot Password",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n       \"email\": \"user2@example.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{URL}}/api/v1/forgotpassword"
+					},
+					"response": []
+				},
+				{
+					"name": "Reset Password",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"password\": \"newpas123\",\r\n    \"passwordConformation\": \"newpas123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8000/api/v1/resetpassword/b5739328ffee546100bebd141ba6b9f2f11cd70b5ebaf291779b137560537ebc"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Password",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"currentPassword\":\"test1234\",\r\n    \"Password\": \"test12345\",\r\n    \"passwordConformation\":\"test12345\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{URL}}/api/v1/update-password"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Email",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"currentPassword\": \"test1234\",\r\n    \"email\": \"user@example.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{URL}}/api/v1/update-email"
+					},
+					"response": []
+				},
+				{
+					"name": "Email Verify (Mail Link)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8000/api/v1/2fb3c0895b8fbfe9a254c5c54168efbe4c2361d31986a4f85f71b0ee48fabd1633e99e71ff5601a3d329ecaf59300e09489946c725241492c7dc032787d674bda9df37cd5a934fbf0fd468e7a6222354622ef3db63164ad43d26f4ff1f638195/email-verify"
+					},
+					"response": []
+				}
+			],
+			"description": "**Auth Flow**\n\n1. First user will register with `Signup` API\n2. User will recive an OTP via email or other service (on terminal for testing)\n    \n3. User wil verify the OTP by `Verify OTP`\n    \n4. If OTP expierirs it can be regenrated by `Send OTP` API\n    \n5. User will revive 2 tokens access token and refresh token"
+		},
+		{
+			"name": "User (me)",
+			"item": [
+				{
+					"name": "Me",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{URL}}/api/v1/me"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Me",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"first user\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{URL}}/api/v1/me"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "locations",
+			"item": [
+				{
+					"name": "Get All locations",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{URL}}/api/v1/locations"
+					},
+					"response": []
+				},
+				{
+					"name": "Post locations to db",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"location\": {\r\n        \"coordinates\": [\r\n            -73.856077,\r\n            40.848447\r\n        ],\r\n        \"type\": \"Point\"\r\n    },\r\n    \"name\": \"Morris Park Bake Shop\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{URL}}/api/v1/locations",
+						"description": "Post locations to Database"
+					},
+					"response": []
+				},
+				{
+					"name": "Find distance between two points",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"point1\": {\r\n        \"latitude\": 37.7749,\r\n        \"longitude\": -122.4194\r\n    },\r\n    \"point2\": {\r\n        \"latitude\": 37.7819,\r\n        \"longitude\": -122.4044\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{URL}}/api/v1/locations/distance",
+						"description": "To find the distance between two points"
+					},
+					"response": []
+				},
+				{
+					"name": "Find closest points to a given points",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/api/v1/locations/close?targetLatitude=37.7749&targetLongitude=-122.4194&limit=4",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"locations",
+								"close"
+							],
+							"query": [
+								{
+									"key": "targetLatitude",
+									"value": "37.7749"
+								},
+								{
+									"key": "targetLongitude",
+									"value": "-122.4194"
+								},
+								{
+									"key": "limit",
+									"value": "4"
+								}
+							]
+						},
+						"description": "To find the closest point to a given point"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Health Check",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:8000/health-check",
+				"description": "To check the Health of server"
+			},
+			"response": []
+		},
+		{
+			"name": "database Init",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}/api/v1/locations/init",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"locations",
+						"init"
+					],
+					"query": [
+						{
+							"key": "type",
+							"value": "large",
+							"disabled": true
+						}
+					]
+				},
+				"description": "to initiate the database with dummy data"
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "URL",
+			"value": "http://localhost:8000"
+		}
+	]
+}
